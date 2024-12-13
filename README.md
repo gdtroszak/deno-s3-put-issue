@@ -22,7 +22,8 @@ console should output `Attempting to upload to S3.`, hang for a bit, and then
 error out because it uses a top-level await.
 
 To get it to work, manually update the version of `@smithy/node-http-handler`
-used in the lockfile with the entry below.
+used in the lockfile with the entry below (see
+[here](https://github.com/gdtroszak/deno-s3-put-issue/blob/main/deno.lock#L2431-L2440)).
 
 ```json
 "@smithy/node-http-handler@3.3.1": {
