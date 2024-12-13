@@ -1,10 +1,10 @@
 # Deno S3 upload failure reproduction
 
-This repo demonstrates a recent issue where puts to S3 with `@aws-sdk/client-s3`
-hang indefinitely in the deno runtime. I've narrowed this down to a change in a
-the `@smithy/node-http-handler` package used by the client, specifically around
-how it handles the `expect` request header with "100-continue" (specifically
-commits
+This repo demonstrates a recent issue where `PUT`s to S3 with
+`@aws-sdk/client-s3` hang indefinitely in the deno runtime. I've narrowed this
+down to a change in a the `@smithy/node-http-handler` package used by the
+client, specifically around how it handles the `expect` request header with
+"100-continue" (specifically commits
 [f4e1a45](https://github.com/smithy-lang/smithy-typescript/commit/f4e1a45b667bfa0b95f78cddfb027b6c6f01272b)
 and
 [a257792](https://github.com/smithy-lang/smithy-typescript/commit/a2577922d8ce5e31256dcf396ecc688c484a8067)).
@@ -17,10 +17,9 @@ and
 3. Run `S3_BUCKET={your bucket} deno run -A main.ts`
 
 The lockfile is currently setup to use the version of
-`@smithy/
-node-http-handler` that does not work (`3.3.2`). The console should
-output `Attempting to upload to S3.`, hang for a bit, and then error out because
-it uses a top-level await.
+`@smithy/node-http-handler` that does not work (`3.3.2`. `3.3.1` does work). The
+console should output `Attempting to upload to S3.`, hang for a bit, and then
+error out because it uses a top-level await.
 
 To get it to work, manually update the version of `@smithy/node-http-handler`
 used in the lockfile with the entry below.
